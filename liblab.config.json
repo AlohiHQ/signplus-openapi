@@ -38,33 +38,31 @@
   "languageOptions": {
     "python": {
       "alwaysInitializeOptionals": false,
-      "pypiPackageName": "py-signplus",
-      "githubRepoName": "py-signplus",
+      "pypiPackageName": "signplus-python",
+      "githubRepoName": "signplus-python",
       "ignoreFiles": [],
       "sdkVersion": "2.0.0",
       "liblabVersion": "2"
     },
     "java": {
-      "alwaysInitializeOptionals": false,
-      "pypiPackageName": "signplus-java",
-      "githubRepoName": "signplus-java",
-      "ignoreFiles": [],
+      "groupId": "alohi.signplus",
+      "artefactId": "alohi.signplus",
       "sdkVersion": "2.0.0",
-      "liblabVersion": "1"
+      "liblabVersion": "2"
     },
     "typescript": {
       "bundle": false,
       "exportClassDefault": false,
       "httpClient": "axios",
-      "npmName": "signplus-ts",
+      "npmName": "signplus-typescript",
       "npmOrg": "alohi",
-      "githubRepoName": "signplus-ts",
+      "githubRepoName": "signplus-typescript",
       "ignoreFiles": [],
       "sdkVersion": "2.0.0",
       "liblabVersion": "2"
     },
     "go": {
-      "goModuleName": "github.com/alohi-dev-test/signplus-go",
+      "goModuleName": "github.com/alohihq/signplus-go",
       "githubRepoName": "signplus-go",
       "ignoreFiles": [],
       "sdkVersion": "2.0.0",
@@ -78,7 +76,7 @@
       "liblabVersion": "2"
     },
     "csharp": {
-      "packageId": "signplus-csharp",
+      "packageId": "Alohi.Signplus",
       "githubRepoName": "signplus-csharp",
       "ignoreFiles": [],
       "sdkVersion": "2.0.0",
@@ -86,6 +84,6 @@
     }
   },
   "publishing": {
-    "githubOrg": "alohi-dev-test"
+    "githubOrg": "alohihq"
   }
 }

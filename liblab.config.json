@@ -45,6 +45,7 @@
       "liblabVersion": "2"
     },
     "java": {
+      "githubRepoName": "signplus-java",
       "groupId": "alohi.signplus",
       "sdkVersion": "2.0.0",
       "liblabVersion": "2"

@@ -46,7 +46,6 @@
     },
     "java": {
       "groupId": "alohi.signplus",
-      "artefactId": "alohi.signplus",
       "sdkVersion": "2.0.0",
       "liblabVersion": "2"
     },

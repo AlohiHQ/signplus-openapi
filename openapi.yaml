@@ -1,0 +1,1866 @@
+openapi: 3.0.0
+info:
+  title: Sign.plus Developer API v2
+  description: Integrate legally-binding electronic signature to your workflow
+  version: 2.0.0
+  contact:
+    name: Sign.Plus
+    url: https://sign.plus
+    email: support@alohi.com
+servers:
+  - url: https://api.sign.plus/v2
+    description: Sign.Plus API - Production
+tags:
+  - name: signplus
+    description: Sign.plus API
+paths:
+  /envelope:
+    post:
+      description: Create new envelope
+      operationId: create_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnvelopeRequest'
+      responses:
+        '200':
+          description: Envelope created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/from_template/{template_id}':
+    post:
+      description: Create new envelope from template
+      operationId: create_envelope_from_template
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnvelopeFromTemplateRequest'
+      responses:
+        '200':
+          description: Envelope created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  /envelopes:
+    post:
+      description: List envelopes
+      operationId: list_envelopes
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListEnvelopesRequest'
+      responses:
+        '200':
+          description: List of envelopes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopesResponse'
+  '/envelope/{envelope_id}':
+    get:
+      description: Get envelope
+      operationId: get_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Envelope details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+    delete:
+      description: Delete envelope
+      operationId: delete_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Envelope deleted successfully
+  '/envelope/{envelope_id}/document/{document_id}':
+    get:
+      description: Get envelope document
+      operationId: get_envelope_document
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: document_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  '/envelope/{envelope_id}/documents':
+    get:
+      description: Get envelope documents
+      operationId: get_envelope_documents
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Documents of envelope retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeDocumentsResponse'
+  '/envelope/{envelope_id}/document':
+    post:
+      description: Add envelope document
+      operationId: add_envelope_document
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddEnvelopeDocumentRequest'
+      responses:
+        '200':
+          description: Document added to envelope successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  '/envelope/{envelope_id}/dynamic_fields':
+    put:
+      description: Set envelope dynamic fields
+      operationId: set_envelope_dynamic_fields
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetEnvelopeDynamicFieldsRequest'
+      responses:
+        '200':
+          description: Dynamic fields added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/signing_steps':
+    post:
+      description: Add envelope signing steps
+      operationId: add_envelope_signing_steps
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEnvelopeSigningStepsRequest'
+      responses:
+        '200':
+          description: Signing steps added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/send':
+    post:
+      description: Send envelope for signature
+      operationId: send_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Envelope sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/duplicate':
+    post:
+      description: Duplicate envelope
+      operationId: duplicate_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Envelope duplicated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/void':
+    put:
+      description: Void envelope
+      operationId: void_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Envelope voided successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/rename':
+    put:
+      description: Rename envelope
+      operationId: rename_envelope
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenameEnvelopeRequest'
+      responses:
+        '200':
+          description: Envelope renamed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/set_comment':
+    put:
+      description: Set envelope comment
+      operationId: set_envelope_comment
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetEnvelopeCommentRequest'
+      responses:
+        '200':
+          description: Envelope comment changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/set_notification':
+    put:
+      description: Set envelope notification
+      operationId: set_envelope_notification
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvelopeNotification'
+      responses:
+        '200':
+          description: Envelope notification changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/set_expiration_date':
+    put:
+      description: Set envelope expiration date
+      operationId: set_envelope_expiration_date
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetEnvelopeExpirationRequest'
+      responses:
+        '200':
+          description: Envelope expiration date changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/set_legality_level':
+    put:
+      description: Set envelope legality level
+      operationId: set_envelope_legality_level
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetEnvelopeLegalityLevelRequest'
+      responses:
+        '200':
+          description: Envelope legality level changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+  '/envelope/{envelope_id}/annotations':
+    get:
+      description: Get envelope annotations
+      operationId: get_envelope_annotations
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+      responses:
+        '200':
+          description: List of annotations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeAnnotationsResponse'
+  '/envelope/{envelope_id}/annotations/{document_id}':
+    get:
+      description: Get envelope document annotations
+      operationId: get_envelope_document_annotations
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+        - in: path
+          name: document_id
+          required: true
+          schema:
+            type: string
+          description: ID of document
+      responses:
+        '200':
+          description: List of document annotations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEnvelopeDocumentAnnotationsResponse'
+  '/envelope/{envelope_id}/annotation':
+    post:
+      description: Add envelope annotation
+      operationId: add_envelope_annotation
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAnnotationRequest'
+      responses:
+        '200':
+          description: Annotation added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annotation'
+  '/envelope/{envelope_id}/annotation/{annotation_id}':
+    delete:
+      description: Delete envelope annotation
+      operationId: delete_envelope_annotation
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+        - in: path
+          name: annotation_id
+          required: true
+          schema:
+            type: string
+          description: ID of the annotation to delete
+      responses:
+        '200':
+          description: Annotation deleted successfully
+  /template:
+    post:
+      description: Create new template
+      operationId: create_template
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTemplateRequest'
+      responses:
+        '200':
+          description: Envelope created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+  /templates:
+    post:
+      description: List templates
+      operationId: list_templates
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListTemplatesRequest'
+      responses:
+        '200':
+          description: List of templates retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplatesResponse'
+  '/template/{template_id}':
+    get:
+      description: Get template
+      operationId: get_template
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Template details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+    delete:
+      description: Delete template
+      operationId: delete_template
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Template deleted successfully
+  '/template/{template_id}/duplicate':
+    post:
+      description: Duplicate template
+      operationId: duplicate_template
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Template duplicated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+  '/template/{template_id}/document':
+    post:
+      description: Add template document
+      operationId: add_template_document
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddTemplateDocumentRequest'
+      responses:
+        '200':
+          description: Document added to envelope successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  '/template/{template_id}/document/{document_id}':
+    get:
+      description: Get template document
+      operationId: get_template_document
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: document_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  '/template/{template_id}/documents':
+    get:
+      description: Get template documents
+      operationId: get_template_documents
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Documents of template retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplateDocumentsResponse'
+  '/template/{template_id}/signing_steps':
+    post:
+      description: Add template signing steps
+      operationId: add_template_signing_steps
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTemplateSigningStepsRequest'
+      responses:
+        '200':
+          description: Signing steps added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+  '/template/{template_id}/rename':
+    put:
+      description: Rename template
+      operationId: rename_template
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenameTemplateRequest'
+      responses:
+        '200':
+          description: Template renamed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+  '/template/{template_id}/set_comment':
+    put:
+      description: Set template comment
+      operationId: set_template_comment
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetTemplateCommentRequest'
+      responses:
+        '200':
+          description: Template comment changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+  '/template/{template_id}/set_notification':
+    put:
+      description: Set template notification
+      operationId: set_template_notification
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvelopeNotification'
+      responses:
+        '200':
+          description: Template notification changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+  '/template/{template_id}/annotations':
+    get:
+      description: Get template annotations
+      operationId: get_template_annotations
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+          description: ID of the template
+      responses:
+        '200':
+          description: List of annotations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplateAnnotationsResponse'
+  '/template/{template_id}/annotations/{document_id}':
+    get:
+      description: Get document template annotations
+      operationId: get_document_template_annotations
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+          description: ID of the template
+        - in: path
+          name: document_id
+          required: true
+          schema:
+            type: string
+          description: ID of document
+      responses:
+        '200':
+          description: List of document annotations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplateDocumentAnnotationsResponse'
+  '/template/{template_id}/annotation':
+    post:
+      description: Add template annotation
+      operationId: add_template_annotation
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+          description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAnnotationRequest'
+      responses:
+        '200':
+          description: Annotation added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annotation'
+  '/template/{template_id}/annotation/{annotation_id}':
+    delete:
+      description: Delete template annotation
+      operationId: delete_template_annotation
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: template_id
+          required: true
+          schema:
+            type: string
+          description: ID of the template
+        - in: path
+          name: annotation_id
+          required: true
+          schema:
+            type: string
+          description: ID of the annotation to delete
+      responses:
+        '200':
+          description: Annotation deleted successfully
+  /webhook:
+    post:
+      description: Create webhook
+      operationId: create_webhook
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebhookRequest'
+      responses:
+        '200':
+          description: Webhook event received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+  /webhooks:
+    post:
+      description: List webhooks
+      operationId: list_webhooks
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListWebhooksRequest'
+      responses:
+        '200':
+          description: List of webhooks retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListWebhooksResponse'
+  '/webhook/{webhook_id}':
+    delete:
+      description: Delete webhook
+      operationId: delete_webhook
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_EDIT
+      parameters:
+        - in: path
+          name: webhook_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Webhook deleted successfully
+components:
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    Envelope:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the envelope
+        name:
+          type: string
+          description: Name of the envelope
+        comment:
+          type: string
+          description: Comment for the envelope
+        pages:
+          type: integer
+          description: Total number of pages in the envelope
+        flow_type:
+          $ref: '#/components/schemas/EnvelopeFlowType'
+        legality_level:
+          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+        status:
+          $ref: '#/components/schemas/EnvelopeStatus'
+        created_at:
+          type: integer
+          description: Unix timestamp of the creation date
+        updated_at:
+          type: integer
+          description: Unix timestamp of the last modification date
+        expires_at:
+          type: integer
+          description: Unix timestamp of the expiration date
+        num_recipients:
+          type: integer
+          description: Number of recipients in the envelope
+        is_duplicable:
+          type: boolean
+          description: Whether the envelope can be duplicated
+        signing_steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/SigningStep'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        notification:
+          $ref: '#/components/schemas/EnvelopeNotification'
+    EnvelopeLegalityLevel:
+      type: string
+      description: >-
+        Legal level of the envelope (SES is Simple Electronic Signature,
+        QES_EIDAS is Qualified Electronic Signature, QES_ZERTES is Qualified
+        Electronic Signature with Zertes)
+      enum:
+        - SES
+        - QES_EIDAS
+        - QES_ZERTES
+    EnvelopeFlowType:
+      type: string
+      description: >-
+        Flow type of the envelope (REQUEST_SIGNATURE is a request for signature,
+        SIGN_MYSELF is a self-signing flow)
+      enum:
+        - REQUEST_SIGNATURE
+        - SIGN_MYSELF
+    EnvelopeOrderField:
+      type: string
+      description: Field to order envelopes by
+      enum:
+        - CREATION_DATE
+        - MODIFICATION_DATE
+        - NAME
+        - STATUS
+        - LAST_DOCUMENT_CHANGE
+    EnvelopeStatus:
+      type: string
+      description: Status of the envelope
+      enum:
+        - DRAFT
+        - IN_PROGRESS
+        - COMPLETED
+        - EXPIRED
+        - DECLINED
+        - VOIDED
+        - PENDING
+    EnvelopeNotification:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Subject of the notification
+        message:
+          type: string
+          description: Message of the notification
+        reminder_interval:
+          type: integer
+          description: Interval in days to send reminder
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the document
+        name:
+          type: string
+          description: Name of the document
+        filename:
+          type: string
+          description: Filename of the document
+        page_count:
+          type: integer
+          description: Number of pages in the document
+        pages:
+          type: array
+          description: List of pages in the document
+          items:
+            $ref: '#/components/schemas/Page'
+    Page:
+      type: object
+      properties:
+        width:
+          type: integer
+          description: Width of the page in pixels
+        height:
+          type: integer
+          description: Height of the page in pixels
+    Recipient:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the recipient
+        uid:
+          type: string
+          description: Unique identifier of the user associated with the recipient
+        name:
+          type: string
+          description: Name of the recipient
+        email:
+          type: string
+          description: Email of the recipient
+        role:
+          $ref: '#/components/schemas/RecipientRole'
+        verification:
+          $ref: '#/components/schemas/RecipientVerification'
+      required:
+        - name
+        - email
+        - role
+    RecipientVerification:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/RecipientVerificationType'
+        value:
+          type: string
+    RecipientVerificationType:
+      type: string
+      description: >-
+        Type of signature verification (SMS sends a code via SMS, PASSCODE
+        requires a code to be entered)
+      enum:
+        - SMS
+        - PASSCODE
+    RecipientRole:
+      type: string
+      description: >-
+        Role of the recipient (SIGNER signs the document, RECEIVES_COPY receives
+        a copy of the document, IN_PERSON_SIGNER signs the document in person,
+        SENDER sends the document)
+      enum:
+        - SIGNER
+        - RECEIVES_COPY
+        - IN_PERSON_SIGNER
+    SigningStep:
+      type: object
+      properties:
+        recipients:
+          type: array
+          description: List of recipients
+          items:
+            $ref: '#/components/schemas/Recipient'
+    Annotation:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the annotation
+        recipient_id:
+          type: string
+          description: ID of the recipient
+        document_id:
+          type: string
+          description: ID of the document
+        page:
+          type: integer
+          description: Page number where the annotation is placed
+        x:
+          type: number
+          format: float
+          description: >-
+            X coordinate of the annotation (in % of the page width from 0 to
+            100) from the top left corner
+        'y':
+          type: number
+          format: float
+          description: >-
+            Y coordinate of the annotation (in % of the page height from 0 to
+            100) from the top left corner
+        width:
+          type: number
+          format: float
+          description: Width of the annotation (in % of the page width from 0 to 100)
+        height:
+          type: number
+          format: float
+          description: Height of the annotation (in % of the page height from 0 to 100)
+        required:
+          type: boolean
+          description: Whether the annotation is required
+        type:
+          $ref: '#/components/schemas/AnnotationType'
+        signature:
+          $ref: '#/components/schemas/AnnotationSignature'
+        initials:
+          $ref: '#/components/schemas/AnnotationInitials'
+        text:
+          $ref: '#/components/schemas/AnnotationText'
+        datetime:
+          $ref: '#/components/schemas/AnnotationDateTime'
+        checkbox:
+          $ref: '#/components/schemas/AnnotationCheckbox'
+    AnnotationType:
+      type: string
+      description: Type of the annotation
+      enum:
+        - TEXT
+        - SIGNATURE
+        - INITIALS
+        - CHECKBOX
+        - DATE
+    AnnotationText:
+      type: object
+      description: Text annotation (null if annotation is not a text)
+      properties:
+        size:
+          type: number
+          description: Font size of the text in pt
+        color:
+          type: number
+          description: Text color in 32bit representation
+        value:
+          type: string
+          description: Text content of the annotation
+        tooltip:
+          type: string
+          description: Tooltip of the annotation
+        dynamic_field_name:
+          type: string
+          description: Name of the dynamic field
+        font:
+          $ref: '#/components/schemas/AnnotationFont'
+    AnnotationSignature:
+      type: object
+      description: Signature annotation (null if annotation is not a signature)
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the annotation signature
+    AnnotationInitials:
+      type: object
+      description: Initials annotation (null if annotation is not initials)
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the annotation initials
+    AnnotationDateTime:
+      type: object
+      description: Date annotation (null if annotation is not a date)
+      properties:
+        size:
+          type: number
+          description: Font size of the text in pt
+        font:
+          $ref: '#/components/schemas/AnnotationFont'
+        color:
+          type: string
+          description: Color of the text in hex format
+        auto_fill:
+          type: boolean
+          description: Whether the date should be automatically filled
+        timezone:
+          type: string
+          description: Timezone of the date
+        timestamp:
+          type: integer
+          description: Unix timestamp of the date
+        format:
+          $ref: '#/components/schemas/AnnotationDateTimeFormat'
+    AnnotationFont:
+      type: object
+      properties:
+        family:
+          $ref: '#/components/schemas/AnnotationFontFamily'
+        italic:
+          type: boolean
+          description: Whether the text is italic
+        bold:
+          type: boolean
+          description: Whether the text is bold
+    AnnotationFontFamily:
+      type: string
+      description: Font family of the text
+      enum:
+        - UNKNOWN
+        - SERIF
+        - SANS
+        - MONO
+    AnnotationDateTimeFormat:
+      type: string
+      description: >-
+        Format of the date time (DMY_NUMERIC_SLASH is day/month/year with
+        slashes, MDY_NUMERIC_SLASH is month/day/year with slashes,
+        YMD_NUMERIC_SLASH is year/month/day with slashes, DMY_NUMERIC_DASH_SHORT
+        is day/month/year with dashes, DMY_NUMERIC_DASH is day/month/year with
+        dashes, YMD_NUMERIC_DASH is year/month/day with dashes,
+        MDY_TEXT_DASH_SHORT is month/day/year with dashes, MDY_TEXT_SPACE_SHORT
+        is month/day/year with spaces, MDY_TEXT_SPACE is month/day/year with
+        spaces)
+      enum:
+        - DMY_NUMERIC_SLASH
+        - MDY_NUMERIC_SLASH
+        - YMD_NUMERIC_SLASH
+        - DMY_NUMERIC_DASH_SHORT
+        - DMY_NUMERIC_DASH
+        - YMD_NUMERIC_DASH
+        - MDY_TEXT_DASH_SHORT
+        - MDY_TEXT_SPACE_SHORT
+        - MDY_TEXT_SPACE
+    AnnotationCheckbox:
+      type: object
+      description: Checkbox annotation (null if annotation is not a checkbox)
+      properties:
+        checked:
+          type: boolean
+          description: Whether the checkbox is checked
+        style:
+          $ref: '#/components/schemas/AnnotationCheckboxStyle'
+    AnnotationCheckboxStyle:
+      type: string
+      description: Style of the checkbox
+      enum:
+        - CIRCLE_CHECK
+        - CIRCLE_FULL
+        - SQUARE_CHECK
+        - SQUARE_FULL
+        - CHECK_MARK
+        - TIMES_SQUARE
+    DynamicField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the dynamic field
+        value:
+          type: string
+          description: Value of the dynamic field
+    CreateEnvelopeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the envelope
+        flow_type:
+          $ref: '#/components/schemas/EnvelopeFlowType'
+        legality_level:
+          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+        expires_at:
+          type: integer
+          description: Unix timestamp of the expiration date
+        comment:
+          type: string
+          description: Comment for the envelope
+        sandbox:
+          type: boolean
+          default: false
+          description: Whether the envelope is created in sandbox mode
+    CreateEnvelopeFromTemplateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the envelope
+        comment:
+          type: string
+          description: Comment for the envelope
+        sandbox:
+          type: boolean
+          default: false
+          description: Whether the envelope is created in sandbox mode
+    ListEnvelopesRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the envelope
+        tags:
+          type: array
+          description: List of tags
+          items:
+            type: string
+            description: Tag of the envelope
+        comment:
+          type: string
+          description: Comment of the envelope
+        ids:
+          type: array
+          description: List of envelope IDs
+          items:
+            type: string
+            description: ID of the envelope
+        statuses:
+          type: array
+          description: List of envelope statuses
+          items:
+            $ref: '#/components/schemas/EnvelopeStatus'
+        folder_ids:
+          type: array
+          description: List of folder IDs
+          items:
+            type: string
+            description: ID of the folder
+        only_root_folder:
+          type: boolean
+          description: Whether to only list envelopes in the root folder
+        date_from:
+          type: integer
+          description: Unix timestamp of the start date
+        date_to:
+          type: integer
+          description: Unix timestamp of the end date
+        uid:
+          type: string
+          description: Unique identifier of the user
+        first:
+          type: integer
+        last:
+          type: integer
+        after:
+          type: string
+        before:
+          type: string
+        order_field:
+          $ref: '#/components/schemas/EnvelopeOrderField'
+        ascending:
+          type: boolean
+          description: Whether to order envelopes in ascending order
+        include_trash:
+          type: boolean
+          description: Whether to include envelopes in the trash
+    AddEnvelopeDocumentRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to upload in binary format
+    AddEnvelopeSigningStepsRequest:
+      type: object
+      properties:
+        signing_steps:
+          type: array
+          description: List of signing steps
+          items:
+            $ref: '#/components/schemas/SigningStep'
+    SetEnvelopeCommentRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Comment for the envelope
+    SetEnvelopeExpirationRequest:
+      type: object
+      properties:
+        expires_at:
+          type: integer
+          description: Unix timestamp of the expiration date
+      required:
+        - expires_at
+    SetEnvelopeLegalityLevelRequest:
+      type: object
+      properties:
+        legality_level:
+          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+    RenameEnvelopeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the envelope
+    AddAnnotationRequest:
+      type: object
+      properties:
+        recipient_id:
+          type: string
+          description: ID of the recipient
+        document_id:
+          type: string
+          description: ID of the document
+        page:
+          type: integer
+          description: Page number where the annotation is placed
+        x:
+          type: number
+          format: float
+          description: >-
+            X coordinate of the annotation (in % of the page width from 0 to
+            100) from the top left corner
+        'y':
+          type: number
+          format: float
+          description: >-
+            Y coordinate of the annotation (in % of the page height from 0 to
+            100) from the top left corner
+        width:
+          type: number
+          format: float
+          description: Width of the annotation (in % of the page width from 0 to 100)
+        height:
+          type: number
+          format: float
+          description: Height of the annotation (in % of the page height from 0 to 100)
+        required:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/AnnotationType'
+        signature:
+          $ref: '#/components/schemas/AnnotationSignature'
+        initials:
+          $ref: '#/components/schemas/AnnotationInitials'
+        text:
+          $ref: '#/components/schemas/AnnotationText'
+        datetime:
+          $ref: '#/components/schemas/AnnotationDateTime'
+        checkbox:
+          $ref: '#/components/schemas/AnnotationCheckbox'
+      required:
+        - document_id
+        - page
+        - x
+        - 'y'
+        - width
+        - height
+        - type
+    ListEnvelopesResponse:
+      type: object
+      properties:
+        has_next_page:
+          type: boolean
+          description: Whether there is a next page
+        has_previous_page:
+          type: boolean
+          description: Whether there is a previous page
+        envelopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Envelope'
+    ListEnvelopeDocumentsResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+    ListEnvelopeDocumentAnnotationsResponse:
+      type: object
+      properties:
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+    ListEnvelopeAnnotationsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Annotation'
+    Template:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the template
+        name:
+          type: string
+          description: Name of the template
+        comment:
+          type: string
+          description: Comment for the template
+        pages:
+          type: integer
+          description: Total number of pages in the template
+        legality_level:
+          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+        created_at:
+          type: integer
+          description: Unix timestamp of the creation date
+        updated_at:
+          type: integer
+          description: Unix timestamp of the last modification date
+        expiration_delay:
+          type: integer
+          description: >-
+            Expiration delay added to the current time when an envelope is
+            created from this template
+        num_recipients:
+          type: integer
+          description: Number of recipients in the envelope
+        signing_steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateSigningStep'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        notification:
+          $ref: '#/components/schemas/EnvelopeNotification'
+        dynamic_fields:
+          type: array
+          description: List of dynamic fields
+          items:
+            type: string
+    TemplateSigningStep:
+      type: object
+      properties:
+        recipients:
+          type: array
+          description: List of recipients
+          items:
+            $ref: '#/components/schemas/TemplateRecipient'
+    TemplateRecipient:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the recipient
+        uid:
+          type: string
+          description: Unique identifier of the user associated with the recipient
+        name:
+          type: string
+          description: Name of the recipient
+        email:
+          type: string
+          description: Email of the recipient
+        role:
+          $ref: '#/components/schemas/TemplateRecipientRole'
+    TemplateRecipientRole:
+      type: string
+      description: >-
+        Role of the recipient (SIGNER signs the document, RECEIVES_COPY receives
+        a copy of the document, IN_PERSON_SIGNER signs the document in person,
+        SENDER sends the document)
+      enum:
+        - SIGNER
+        - RECEIVES_COPY
+        - IN_PERSON_SIGNER
+    TemplateOrderField:
+      type: string
+      description: Field to order templates by
+      enum:
+        - TEMPLATE_ID
+        - TEMPLATE_CREATION_DATE
+        - TEMPLATE_MODIFICATION_DATE
+        - TEMPLATE_NAME
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the webhook
+        event:
+          $ref: '#/components/schemas/WebhookEvent'
+        target:
+          type: string
+          description: Target URL of the webhook
+    WebhookEvent:
+      type: string
+      description: Event of the webhook
+      enum:
+        - ENVELOPE_EXPIRED
+        - ENVELOPE_DECLINED
+        - ENVELOPE_VOIDED
+        - ENVELOPE_COMPLETED
+    CreateWebhookRequest:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/WebhookEvent'
+        target:
+          type: string
+          description: URL of the webhook target
+      required:
+        - event
+        - target
+    CreateTemplateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    AddTemplateDocumentRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to upload in binary format
+    AddTemplateSigningStepsRequest:
+      type: object
+      properties:
+        signing_steps:
+          type: array
+          description: List of signing steps
+          items:
+            $ref: '#/components/schemas/TemplateSigningStep'
+    SetTemplateCommentRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Comment for the template
+    RenameTemplateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the template
+    ListWebhooksRequest:
+      type: object
+      properties:
+        webhook_id:
+          type: string
+          description: ID of the webhook
+        event:
+          $ref: '#/components/schemas/WebhookEvent'
+    ListTemplatesRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the template
+        tags:
+          type: array
+          description: List of tag templates
+          items:
+            type: string
+            description: Tag of the template
+        ids:
+          type: array
+          description: List of templates IDs
+          items:
+            type: string
+            description: ID of the template
+        first:
+          type: integer
+        last:
+          type: integer
+        after:
+          type: string
+        before:
+          type: string
+        order_field:
+          $ref: '#/components/schemas/TemplateOrderField'
+        ascending:
+          type: boolean
+          description: Whether to order templates in ascending order
+    SetEnvelopeDynamicFieldsRequest:
+      type: object
+      properties:
+        dynamic_fields:
+          type: array
+          description: List of dynamic fields
+          items:
+            $ref: '#/components/schemas/DynamicField'
+    ListTemplateDocumentsResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+    ListTemplateDocumentAnnotationsResponse:
+      type: object
+      properties:
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+    ListTemplatesResponse:
+      type: object
+      properties:
+        has_next_page:
+          type: boolean
+          description: Whether there is a next page
+        has_previous_page:
+          type: boolean
+          description: Whether there is a previous page
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+    ListTemplateAnnotationsResponse:
+      type: object
+      properties:
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+    ListWebhooksResponse:
+      type: object
+      properties:
+        webhooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Webhook'

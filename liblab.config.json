@@ -1,0 +1,91 @@
+{
+  "sdkName": "signplus",
+  "apiVersion": "2.0.0",
+  "apiName": "signplus-api",
+  "specFilePath": "openapi.yaml",
+  "languages": [
+    "csharp",
+    "go",
+    "python",
+    "php",
+    "typescript",
+    "java"
+  ],
+  "auth": [
+    "bearer"
+  ],
+  "customizations": {
+    "includeOptionalSnippetParameters": true,
+    "authentication": {
+      "access": {
+        "prefix": "Bearer"
+      }
+    },
+    "devContainer": false,
+    "generateEnv": true,
+    "inferServiceNames": false,
+    "injectedModels": [],
+    "license": {
+      "type": "MIT"
+    },
+    "responseHeaders": false,
+    "retry": {
+      "enabled": true,
+      "maxAttempts": 3,
+      "retryDelay": 150
+    }
+  },
+  "languageOptions": {
+    "python": {
+      "alwaysInitializeOptionals": false,
+      "pypiPackageName": "py-signplus",
+      "githubRepoName": "py-signplus",
+      "ignoreFiles": [],
+      "sdkVersion": "2.0.0",
+      "liblabVersion": "2"
+    },
+    "java": {
+      "alwaysInitializeOptionals": false,
+      "pypiPackageName": "signplus-java",
+      "githubRepoName": "signplus-java",
+      "ignoreFiles": [],
+      "sdkVersion": "2.0.0",
+      "liblabVersion": "1"
+    },
+    "typescript": {
+      "bundle": false,
+      "exportClassDefault": false,
+      "httpClient": "axios",
+      "npmName": "signplus-ts",
+      "npmOrg": "alohi",
+      "githubRepoName": "signplus-ts",
+      "ignoreFiles": [],
+      "sdkVersion": "2.0.0",
+      "liblabVersion": "2"
+    },
+    "go": {
+      "goModuleName": "github.com/alohi-dev-test/signplus-go",
+      "githubRepoName": "signplus-go",
+      "ignoreFiles": [],
+      "sdkVersion": "2.0.0",
+      "liblabVersion": "2"
+    },
+    "php": {
+      "packageName": "alohi/signplus",
+      "githubRepoName": "signplus-php",
+      "ignoreFiles": [],
+      "sdkVersion": "2.0.0",
+      "liblabVersion": "2"
+    },
+    "csharp": {
+      "packageId": "signplus-csharp",
+      "githubRepoName": "signplus-csharp",
+      "ignoreFiles": [],
+      "sdkVersion": "2.0.0",
+      "liblabVersion": "2"
+    }
+  },
+  "publishing": {
+    "githubOrg": "alohi-dev-test"
+  }
+}

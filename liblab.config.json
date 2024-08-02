@@ -3,17 +3,8 @@
   "apiVersion": "2.0.0",
   "apiName": "signplus-api",
   "specFilePath": "openapi.yaml",
-  "languages": [
-    "csharp",
-    "go",
-    "python",
-    "php",
-    "typescript",
-    "java"
-  ],
-  "auth": [
-    "bearer"
-  ],
+  "languages": ["csharp", "go", "python", "typescript", "java"],
+  "auth": ["bearer"],
   "customizations": {
     "includeOptionalSnippetParameters": true,
     "authentication": {

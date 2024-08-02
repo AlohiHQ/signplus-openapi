@@ -28,15 +28,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateEnvelopeRequest'
+              $ref: "#/components/schemas/CreateEnvelopeRequest"
       responses:
-        '200':
+        "200":
           description: Envelope created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/from_template/{template_id}':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/from_template/{template_id}":
     post:
       description: Create new envelope from template
       operationId: create_envelope_from_template
@@ -56,14 +56,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateEnvelopeFromTemplateRequest'
+              $ref: "#/components/schemas/CreateEnvelopeFromTemplateRequest"
       responses:
-        '200':
+        "200":
           description: Envelope created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: "#/components/schemas/Envelope"
   /envelopes:
     post:
       description: List envelopes
@@ -78,15 +78,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ListEnvelopesRequest'
+              $ref: "#/components/schemas/ListEnvelopesRequest"
       responses:
-        '200':
+        "200":
           description: List of envelopes retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListEnvelopesResponse'
-  '/envelope/{envelope_id}':
+                $ref: "#/components/schemas/ListEnvelopesResponse"
+  "/envelope/{envelope_id}":
     get:
       description: Get envelope
       operationId: get_envelope
@@ -102,12 +102,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Envelope details retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: "#/components/schemas/Envelope"
     delete:
       description: Delete envelope
       operationId: delete_envelope
@@ -123,9 +123,9 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Envelope deleted successfully
-  '/envelope/{envelope_id}/document/{document_id}':
+  "/envelope/{envelope_id}/document/{document_id}":
     get:
       description: Get envelope document
       operationId: get_envelope_document
@@ -146,13 +146,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Document details retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
-  '/envelope/{envelope_id}/documents':
+                $ref: "#/components/schemas/Document"
+  "/envelope/{envelope_id}/documents":
     get:
       description: Get envelope documents
       operationId: get_envelope_documents
@@ -168,13 +168,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Documents of envelope retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListEnvelopeDocumentsResponse'
-  '/envelope/{envelope_id}/document':
+                $ref: "#/components/schemas/ListEnvelopeDocumentsResponse"
+  "/envelope/{envelope_id}/document":
     post:
       description: Add envelope document
       operationId: add_envelope_document
@@ -194,15 +194,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AddEnvelopeDocumentRequest'
+              $ref: "#/components/schemas/AddEnvelopeDocumentRequest"
       responses:
-        '200':
+        "200":
           description: Document added to envelope successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
-  '/envelope/{envelope_id}/dynamic_fields':
+                $ref: "#/components/schemas/Document"
+  "/envelope/{envelope_id}/dynamic_fields":
     put:
       description: Set envelope dynamic fields
       operationId: set_envelope_dynamic_fields
@@ -222,15 +222,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetEnvelopeDynamicFieldsRequest'
+              $ref: "#/components/schemas/SetEnvelopeDynamicFieldsRequest"
       responses:
-        '200':
+        "200":
           description: Dynamic fields added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/signing_steps':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/signing_steps":
     post:
       description: Add envelope signing steps
       operationId: add_envelope_signing_steps
@@ -250,15 +250,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddEnvelopeSigningStepsRequest'
+              $ref: "#/components/schemas/AddEnvelopeSigningStepsRequest"
       responses:
-        '200':
+        "200":
           description: Signing steps added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/send':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/send":
     post:
       description: Send envelope for signature
       operationId: send_envelope
@@ -274,13 +274,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Envelope sent successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/duplicate':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/duplicate":
     post:
       description: Duplicate envelope
       operationId: duplicate_envelope
@@ -296,13 +296,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Envelope duplicated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/void':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/void":
     put:
       description: Void envelope
       operationId: void_envelope
@@ -318,13 +318,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Envelope voided successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/rename':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/rename":
     put:
       description: Rename envelope
       operationId: rename_envelope
@@ -344,15 +344,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RenameEnvelopeRequest'
+              $ref: "#/components/schemas/RenameEnvelopeRequest"
       responses:
-        '200':
+        "200":
           description: Envelope renamed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/set_comment':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/set_comment":
     put:
       description: Set envelope comment
       operationId: set_envelope_comment
@@ -372,15 +372,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetEnvelopeCommentRequest'
+              $ref: "#/components/schemas/SetEnvelopeCommentRequest"
       responses:
-        '200':
+        "200":
           description: Envelope comment changed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/set_notification':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/set_notification":
     put:
       description: Set envelope notification
       operationId: set_envelope_notification
@@ -400,15 +400,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EnvelopeNotification'
+              $ref: "#/components/schemas/EnvelopeNotification"
       responses:
-        '200':
+        "200":
           description: Envelope notification changed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/set_expiration_date':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/set_expiration_date":
     put:
       description: Set envelope expiration date
       operationId: set_envelope_expiration_date
@@ -428,15 +428,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetEnvelopeExpirationRequest'
+              $ref: "#/components/schemas/SetEnvelopeExpirationRequest"
       responses:
-        '200':
+        "200":
           description: Envelope expiration date changed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/set_legality_level':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/set_legality_level":
     put:
       description: Set envelope legality level
       operationId: set_envelope_legality_level
@@ -456,15 +456,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetEnvelopeLegalityLevelRequest'
+              $ref: "#/components/schemas/SetEnvelopeLegalityLevelRequest"
       responses:
-        '200':
+        "200":
           description: Envelope legality level changed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
-  '/envelope/{envelope_id}/annotations':
+                $ref: "#/components/schemas/Envelope"
+  "/envelope/{envelope_id}/annotations":
     get:
       description: Get envelope annotations
       operationId: get_envelope_annotations
@@ -481,13 +481,13 @@ paths:
             type: string
           description: ID of the envelope
       responses:
-        '200':
+        "200":
           description: List of annotations retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListEnvelopeAnnotationsResponse'
-  '/envelope/{envelope_id}/annotations/{document_id}':
+                $ref: "#/components/schemas/ListEnvelopeAnnotationsResponse"
+  "/envelope/{envelope_id}/annotations/{document_id}":
     get:
       description: Get envelope document annotations
       operationId: get_envelope_document_annotations
@@ -510,13 +510,13 @@ paths:
             type: string
           description: ID of document
       responses:
-        '200':
+        "200":
           description: List of document annotations retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListEnvelopeDocumentAnnotationsResponse'
-  '/envelope/{envelope_id}/annotation':
+                $ref: "#/components/schemas/ListEnvelopeDocumentAnnotationsResponse"
+  "/envelope/{envelope_id}/annotation":
     post:
       description: Add envelope annotation
       operationId: add_envelope_annotation
@@ -537,15 +537,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddAnnotationRequest'
+              $ref: "#/components/schemas/AddAnnotationRequest"
       responses:
-        '200':
+        "200":
           description: Annotation added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Annotation'
-  '/envelope/{envelope_id}/annotation/{annotation_id}':
+                $ref: "#/components/schemas/Annotation"
+  "/envelope/{envelope_id}/annotation/{annotation_id}":
     delete:
       description: Delete envelope annotation
       operationId: delete_envelope_annotation
@@ -568,7 +568,7 @@ paths:
             type: string
           description: ID of the annotation to delete
       responses:
-        '200':
+        "200":
           description: Annotation deleted successfully
   /template:
     post:
@@ -584,14 +584,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTemplateRequest'
+              $ref: "#/components/schemas/CreateTemplateRequest"
       responses:
-        '200':
+        "200":
           description: Envelope created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
+                $ref: "#/components/schemas/Template"
   /templates:
     post:
       description: List templates
@@ -606,15 +606,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ListTemplatesRequest'
+              $ref: "#/components/schemas/ListTemplatesRequest"
       responses:
-        '200':
+        "200":
           description: List of templates retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListTemplatesResponse'
-  '/template/{template_id}':
+                $ref: "#/components/schemas/ListTemplatesResponse"
+  "/template/{template_id}":
     get:
       description: Get template
       operationId: get_template
@@ -630,12 +630,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Template details retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
+                $ref: "#/components/schemas/Template"
     delete:
       description: Delete template
       operationId: delete_template
@@ -651,9 +651,9 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Template deleted successfully
-  '/template/{template_id}/duplicate':
+  "/template/{template_id}/duplicate":
     post:
       description: Duplicate template
       operationId: duplicate_template
@@ -669,13 +669,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Template duplicated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
-  '/template/{template_id}/document':
+                $ref: "#/components/schemas/Template"
+  "/template/{template_id}/document":
     post:
       description: Add template document
       operationId: add_template_document
@@ -695,15 +695,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AddTemplateDocumentRequest'
+              $ref: "#/components/schemas/AddTemplateDocumentRequest"
       responses:
-        '200':
+        "200":
           description: Document added to envelope successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
-  '/template/{template_id}/document/{document_id}':
+                $ref: "#/components/schemas/Document"
+  "/template/{template_id}/document/{document_id}":
     get:
       description: Get template document
       operationId: get_template_document
@@ -724,13 +724,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Document details retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
-  '/template/{template_id}/documents':
+                $ref: "#/components/schemas/Document"
+  "/template/{template_id}/documents":
     get:
       description: Get template documents
       operationId: get_template_documents
@@ -746,13 +746,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Documents of template retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListTemplateDocumentsResponse'
-  '/template/{template_id}/signing_steps':
+                $ref: "#/components/schemas/ListTemplateDocumentsResponse"
+  "/template/{template_id}/signing_steps":
     post:
       description: Add template signing steps
       operationId: add_template_signing_steps
@@ -772,15 +772,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddTemplateSigningStepsRequest'
+              $ref: "#/components/schemas/AddTemplateSigningStepsRequest"
       responses:
-        '200':
+        "200":
           description: Signing steps added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
-  '/template/{template_id}/rename':
+                $ref: "#/components/schemas/Template"
+  "/template/{template_id}/rename":
     put:
       description: Rename template
       operationId: rename_template
@@ -800,15 +800,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RenameTemplateRequest'
+              $ref: "#/components/schemas/RenameTemplateRequest"
       responses:
-        '200':
+        "200":
           description: Template renamed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
-  '/template/{template_id}/set_comment':
+                $ref: "#/components/schemas/Template"
+  "/template/{template_id}/set_comment":
     put:
       description: Set template comment
       operationId: set_template_comment
@@ -828,15 +828,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetTemplateCommentRequest'
+              $ref: "#/components/schemas/SetTemplateCommentRequest"
       responses:
-        '200':
+        "200":
           description: Template comment changed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
-  '/template/{template_id}/set_notification':
+                $ref: "#/components/schemas/Template"
+  "/template/{template_id}/set_notification":
     put:
       description: Set template notification
       operationId: set_template_notification
@@ -856,15 +856,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EnvelopeNotification'
+              $ref: "#/components/schemas/EnvelopeNotification"
       responses:
-        '200':
+        "200":
           description: Template notification changed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
-  '/template/{template_id}/annotations':
+                $ref: "#/components/schemas/Template"
+  "/template/{template_id}/annotations":
     get:
       description: Get template annotations
       operationId: get_template_annotations
@@ -881,13 +881,13 @@ paths:
             type: string
           description: ID of the template
       responses:
-        '200':
+        "200":
           description: List of annotations retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListTemplateAnnotationsResponse'
-  '/template/{template_id}/annotations/{document_id}':
+                $ref: "#/components/schemas/ListTemplateAnnotationsResponse"
+  "/template/{template_id}/annotations/{document_id}":
     get:
       description: Get document template annotations
       operationId: get_document_template_annotations
@@ -910,13 +910,13 @@ paths:
             type: string
           description: ID of document
       responses:
-        '200':
+        "200":
           description: List of document annotations retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListTemplateDocumentAnnotationsResponse'
-  '/template/{template_id}/annotation':
+                $ref: "#/components/schemas/ListTemplateDocumentAnnotationsResponse"
+  "/template/{template_id}/annotation":
     post:
       description: Add template annotation
       operationId: add_template_annotation
@@ -937,15 +937,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddAnnotationRequest'
+              $ref: "#/components/schemas/AddAnnotationRequest"
       responses:
-        '200':
+        "200":
           description: Annotation added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Annotation'
-  '/template/{template_id}/annotation/{annotation_id}':
+                $ref: "#/components/schemas/Annotation"
+  "/template/{template_id}/annotation/{annotation_id}":
     delete:
       description: Delete template annotation
       operationId: delete_template_annotation
@@ -968,7 +968,7 @@ paths:
             type: string
           description: ID of the annotation to delete
       responses:
-        '200':
+        "200":
           description: Annotation deleted successfully
   /webhook:
     post:
@@ -984,14 +984,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateWebhookRequest'
+              $ref: "#/components/schemas/CreateWebhookRequest"
       responses:
-        '200':
+        "200":
           description: Webhook event received successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Webhook'
+                $ref: "#/components/schemas/Webhook"
   /webhooks:
     post:
       description: List webhooks
@@ -1006,15 +1006,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ListWebhooksRequest'
+              $ref: "#/components/schemas/ListWebhooksRequest"
       responses:
-        '200':
+        "200":
           description: List of webhooks retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListWebhooksResponse'
-  '/webhook/{webhook_id}':
+                $ref: "#/components/schemas/ListWebhooksResponse"
+  "/webhook/{webhook_id}":
     delete:
       description: Delete webhook
       operationId: delete_webhook
@@ -1030,7 +1030,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Webhook deleted successfully
 components:
   securitySchemes:
@@ -1055,11 +1055,11 @@ components:
           type: integer
           description: Total number of pages in the envelope
         flow_type:
-          $ref: '#/components/schemas/EnvelopeFlowType'
+          $ref: "#/components/schemas/EnvelopeFlowType"
         legality_level:
-          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+          $ref: "#/components/schemas/EnvelopeLegalityLevel"
         status:
-          $ref: '#/components/schemas/EnvelopeStatus'
+          $ref: "#/components/schemas/EnvelopeStatus"
         created_at:
           type: integer
           description: Unix timestamp of the creation date
@@ -1078,13 +1078,13 @@ components:
         signing_steps:
           type: array
           items:
-            $ref: '#/components/schemas/SigningStep'
+            $ref: "#/components/schemas/SigningStep"
         documents:
           type: array
           items:
-            $ref: '#/components/schemas/Document'
+            $ref: "#/components/schemas/Document"
         notification:
-          $ref: '#/components/schemas/EnvelopeNotification'
+          $ref: "#/components/schemas/EnvelopeNotification"
     EnvelopeLegalityLevel:
       type: string
       description: >-
@@ -1154,7 +1154,7 @@ components:
           type: array
           description: List of pages in the document
           items:
-            $ref: '#/components/schemas/Page'
+            $ref: "#/components/schemas/Page"
     Page:
       type: object
       properties:
@@ -1180,9 +1180,9 @@ components:
           type: string
           description: Email of the recipient
         role:
-          $ref: '#/components/schemas/RecipientRole'
+          $ref: "#/components/schemas/RecipientRole"
         verification:
-          $ref: '#/components/schemas/RecipientVerification'
+          $ref: "#/components/schemas/RecipientVerification"
       required:
         - name
         - email
@@ -1191,7 +1191,7 @@ components:
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/RecipientVerificationType'
+          $ref: "#/components/schemas/RecipientVerificationType"
         value:
           type: string
     RecipientVerificationType:
@@ -1219,7 +1219,7 @@ components:
           type: array
           description: List of recipients
           items:
-            $ref: '#/components/schemas/Recipient'
+            $ref: "#/components/schemas/Recipient"
     Annotation:
       type: object
       properties:
@@ -1241,7 +1241,7 @@ components:
           description: >-
             X coordinate of the annotation (in % of the page width from 0 to
             100) from the top left corner
-        'y':
+        "y":
           type: number
           format: float
           description: >-
@@ -1259,17 +1259,17 @@ components:
           type: boolean
           description: Whether the annotation is required
         type:
-          $ref: '#/components/schemas/AnnotationType'
+          $ref: "#/components/schemas/AnnotationType"
         signature:
-          $ref: '#/components/schemas/AnnotationSignature'
+          $ref: "#/components/schemas/AnnotationSignature"
         initials:
-          $ref: '#/components/schemas/AnnotationInitials'
+          $ref: "#/components/schemas/AnnotationInitials"
         text:
-          $ref: '#/components/schemas/AnnotationText'
+          $ref: "#/components/schemas/AnnotationText"
         datetime:
-          $ref: '#/components/schemas/AnnotationDateTime'
+          $ref: "#/components/schemas/AnnotationDateTime"
         checkbox:
-          $ref: '#/components/schemas/AnnotationCheckbox'
+          $ref: "#/components/schemas/AnnotationCheckbox"
     AnnotationType:
       type: string
       description: Type of the annotation
@@ -1299,7 +1299,7 @@ components:
           type: string
           description: Name of the dynamic field
         font:
-          $ref: '#/components/schemas/AnnotationFont'
+          $ref: "#/components/schemas/AnnotationFont"
     AnnotationSignature:
       type: object
       description: Signature annotation (null if annotation is not a signature)
@@ -1322,7 +1322,7 @@ components:
           type: number
           description: Font size of the text in pt
         font:
-          $ref: '#/components/schemas/AnnotationFont'
+          $ref: "#/components/schemas/AnnotationFont"
         color:
           type: string
           description: Color of the text in hex format
@@ -1336,12 +1336,12 @@ components:
           type: integer
           description: Unix timestamp of the date
         format:
-          $ref: '#/components/schemas/AnnotationDateTimeFormat'
+          $ref: "#/components/schemas/AnnotationDateTimeFormat"
     AnnotationFont:
       type: object
       properties:
         family:
-          $ref: '#/components/schemas/AnnotationFontFamily'
+          $ref: "#/components/schemas/AnnotationFontFamily"
         italic:
           type: boolean
           description: Whether the text is italic
@@ -1385,7 +1385,7 @@ components:
           type: boolean
           description: Whether the checkbox is checked
         style:
-          $ref: '#/components/schemas/AnnotationCheckboxStyle'
+          $ref: "#/components/schemas/AnnotationCheckboxStyle"
     AnnotationCheckboxStyle:
       type: string
       description: Style of the checkbox
@@ -1412,9 +1412,9 @@ components:
           type: string
           description: Name of the envelope
         flow_type:
-          $ref: '#/components/schemas/EnvelopeFlowType'
+          $ref: "#/components/schemas/EnvelopeFlowType"
         legality_level:
-          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+          $ref: "#/components/schemas/EnvelopeLegalityLevel"
         expires_at:
           type: integer
           description: Unix timestamp of the expiration date
@@ -1425,6 +1425,10 @@ components:
           type: boolean
           default: false
           description: Whether the envelope is created in sandbox mode
+      required:
+        - name
+        - flow_type
+        - legality_level
     CreateEnvelopeFromTemplateRequest:
       type: object
       properties:
@@ -1438,6 +1442,8 @@ components:
           type: boolean
           default: false
           description: Whether the envelope is created in sandbox mode
+      required:
+        - name
     ListEnvelopesRequest:
       type: object
       properties:
@@ -1463,7 +1469,7 @@ components:
           type: array
           description: List of envelope statuses
           items:
-            $ref: '#/components/schemas/EnvelopeStatus'
+            $ref: "#/components/schemas/EnvelopeStatus"
         folder_ids:
           type: array
           description: List of folder IDs
@@ -1491,7 +1497,7 @@ components:
         before:
           type: string
         order_field:
-          $ref: '#/components/schemas/EnvelopeOrderField'
+          $ref: "#/components/schemas/EnvelopeOrderField"
         ascending:
           type: boolean
           description: Whether to order envelopes in ascending order
@@ -1512,13 +1518,15 @@ components:
           type: array
           description: List of signing steps
           items:
-            $ref: '#/components/schemas/SigningStep'
+            $ref: "#/components/schemas/SigningStep"
     SetEnvelopeCommentRequest:
       type: object
       properties:
         comment:
           type: string
           description: Comment for the envelope
+      required:
+        - comment
     SetEnvelopeExpirationRequest:
       type: object
       properties:
@@ -1531,7 +1539,7 @@ components:
       type: object
       properties:
         legality_level:
-          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+          $ref: "#/components/schemas/EnvelopeLegalityLevel"
     RenameEnvelopeRequest:
       type: object
       properties:
@@ -1556,7 +1564,7 @@ components:
           description: >-
             X coordinate of the annotation (in % of the page width from 0 to
             100) from the top left corner
-        'y':
+        y:
           type: number
           format: float
           description: >-
@@ -1573,22 +1581,22 @@ components:
         required:
           type: boolean
         type:
-          $ref: '#/components/schemas/AnnotationType'
+          $ref: "#/components/schemas/AnnotationType"
         signature:
-          $ref: '#/components/schemas/AnnotationSignature'
+          $ref: "#/components/schemas/AnnotationSignature"
         initials:
-          $ref: '#/components/schemas/AnnotationInitials'
+          $ref: "#/components/schemas/AnnotationInitials"
         text:
-          $ref: '#/components/schemas/AnnotationText'
+          $ref: "#/components/schemas/AnnotationText"
         datetime:
-          $ref: '#/components/schemas/AnnotationDateTime'
+          $ref: "#/components/schemas/AnnotationDateTime"
         checkbox:
-          $ref: '#/components/schemas/AnnotationCheckbox'
+          $ref: "#/components/schemas/AnnotationCheckbox"
       required:
         - document_id
         - page
         - x
-        - 'y'
+        - y
         - width
         - height
         - type
@@ -1604,25 +1612,25 @@ components:
         envelopes:
           type: array
           items:
-            $ref: '#/components/schemas/Envelope'
+            $ref: "#/components/schemas/Envelope"
     ListEnvelopeDocumentsResponse:
       type: object
       properties:
         documents:
           type: array
           items:
-            $ref: '#/components/schemas/Document'
+            $ref: "#/components/schemas/Document"
     ListEnvelopeDocumentAnnotationsResponse:
       type: object
       properties:
         annotations:
           type: array
           items:
-            $ref: '#/components/schemas/Annotation'
+            $ref: "#/components/schemas/Annotation"
     ListEnvelopeAnnotationsResponse:
       type: array
       items:
-        $ref: '#/components/schemas/Annotation'
+        $ref: "#/components/schemas/Annotation"
     Template:
       type: object
       properties:
@@ -1639,7 +1647,7 @@ components:
           type: integer
           description: Total number of pages in the template
         legality_level:
-          $ref: '#/components/schemas/EnvelopeLegalityLevel'
+          $ref: "#/components/schemas/EnvelopeLegalityLevel"
         created_at:
           type: integer
           description: Unix timestamp of the creation date
@@ -1657,13 +1665,13 @@ components:
         signing_steps:
           type: array
           items:
-            $ref: '#/components/schemas/TemplateSigningStep'
+            $ref: "#/components/schemas/TemplateSigningStep"
         documents:
           type: array
           items:
-            $ref: '#/components/schemas/Document'
+            $ref: "#/components/schemas/Document"
         notification:
-          $ref: '#/components/schemas/EnvelopeNotification'
+          $ref: "#/components/schemas/EnvelopeNotification"
         dynamic_fields:
           type: array
           description: List of dynamic fields
@@ -1676,7 +1684,7 @@ components:
           type: array
           description: List of recipients
           items:
-            $ref: '#/components/schemas/TemplateRecipient'
+            $ref: "#/components/schemas/TemplateRecipient"
     TemplateRecipient:
       type: object
       properties:
@@ -1693,7 +1701,7 @@ components:
           type: string
           description: Email of the recipient
         role:
-          $ref: '#/components/schemas/TemplateRecipientRole'
+          $ref: "#/components/schemas/TemplateRecipientRole"
     TemplateRecipientRole:
       type: string
       description: >-
@@ -1719,7 +1727,7 @@ components:
           type: string
           description: Unique identifier of the webhook
         event:
-          $ref: '#/components/schemas/WebhookEvent'
+          $ref: "#/components/schemas/WebhookEvent"
         target:
           type: string
           description: Target URL of the webhook
@@ -1735,7 +1743,7 @@ components:
       type: object
       properties:
         event:
-          $ref: '#/components/schemas/WebhookEvent'
+          $ref: "#/components/schemas/WebhookEvent"
         target:
           type: string
           description: URL of the webhook target
@@ -1756,6 +1764,8 @@ components:
           type: string
           format: binary
           description: File to upload in binary format
+      required:
+        - file
     AddTemplateSigningStepsRequest:
       type: object
       properties:
@@ -1763,19 +1773,25 @@ components:
           type: array
           description: List of signing steps
           items:
-            $ref: '#/components/schemas/TemplateSigningStep'
+            $ref: "#/components/schemas/TemplateSigningStep"
+      required:
+        - signing_steps
     SetTemplateCommentRequest:
       type: object
       properties:
         comment:
           type: string
           description: Comment for the template
+      required:
+        - comment
     RenameTemplateRequest:
       type: object
       properties:
         name:
           type: string
           description: Name of the template
+      required:
+        - name
     ListWebhooksRequest:
       type: object
       properties:
@@ -1783,7 +1799,7 @@ components:
           type: string
           description: ID of the webhook
         event:
-          $ref: '#/components/schemas/WebhookEvent'
+          $ref: "#/components/schemas/WebhookEvent"
     ListTemplatesRequest:
       type: object
       properties:
@@ -1811,7 +1827,7 @@ components:
         before:
           type: string
         order_field:
-          $ref: '#/components/schemas/TemplateOrderField'
+          $ref: "#/components/schemas/TemplateOrderField"
         ascending:
           type: boolean
           description: Whether to order templates in ascending order
@@ -1822,21 +1838,23 @@ components:
           type: array
           description: List of dynamic fields
           items:
-            $ref: '#/components/schemas/DynamicField'
+            $ref: "#/components/schemas/DynamicField"
+      required:
+        - dynamic_fields
     ListTemplateDocumentsResponse:
       type: object
       properties:
         documents:
           type: array
           items:
-            $ref: '#/components/schemas/Document'
+            $ref: "#/components/schemas/Document"
     ListTemplateDocumentAnnotationsResponse:
       type: object
       properties:
         annotations:
           type: array
           items:
-            $ref: '#/components/schemas/Annotation'
+            $ref: "#/components/schemas/Annotation"
     ListTemplatesResponse:
       type: object
       properties:
@@ -1849,18 +1867,18 @@ components:
         templates:
           type: array
           items:
-            $ref: '#/components/schemas/Template'
+            $ref: "#/components/schemas/Template"
     ListTemplateAnnotationsResponse:
       type: object
       properties:
         annotations:
           type: array
           items:
-            $ref: '#/components/schemas/Annotation'
+            $ref: "#/components/schemas/Annotation"
     ListWebhooksResponse:
       type: object
       properties:
         webhooks:
           type: array
           items:
-            $ref: '#/components/schemas/Webhook'
+            $ref: "#/components/schemas/Webhook"

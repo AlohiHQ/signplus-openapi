@@ -8,7 +8,7 @@ info:
     url: https://sign.plus
     email: support@alohi.com
 servers:
-  - url: https://api.sign.plus/v2
+  - url: https://restapi.sign.plus/v2
     description: Sign.Plus API - Production
 tags:
   - name: signplus

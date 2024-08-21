@@ -38,7 +38,8 @@
     },
     "java": {
       "githubRepoName": "signplus-java",
-      "groupId": "alohi.signplus",
+      "groupId": "com.alohi",
+      "artifactId": "signplus",
       "sdkVersion": "2.0.0",
       "liblabVersion": "2",
       "additionalConstructorParameters": []

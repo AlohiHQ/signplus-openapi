@@ -42,12 +42,12 @@
       "artifactId": "signplus",
       "sdkVersion": "2.0.0",
       "liblabVersion": "2",
-      "developers": {
+      "developers": [{
         "name": "Alohi SA",
         "email": "support@alohi.com",
         "organization": "Alohi SA",
         "organizationUrl": "https://www.alohi.com"
-      },
+      }],
       "additionalConstructorParameters": []
     },
     "typescript": {

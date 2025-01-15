@@ -40,7 +40,7 @@
       "githubRepoName": "signplus-java",
       "groupId": "com.alohi",
       "artifactId": "signplus",
-      "sdkVersion": "1.1.0",
+      "sdkVersion": "2.1.0",
       "liblabVersion": "2",
       "developers": [{
         "name": "Alohi SA",
@@ -58,7 +58,7 @@
       "npmOrg": "alohi",
       "githubRepoName": "signplus-typescript",
       "ignoreFiles": [],
-      "sdkVersion": "1.1.0",
+      "sdkVersion": "2.1.0",
       "liblabVersion": "2",
       "additionalConstructorParameters": []
     },
@@ -74,7 +74,7 @@
       "packageName": "alohi/signplus",
       "githubRepoName": "signplus-php",
       "ignoreFiles": [],
-      "sdkVersion": "1.1.0",
+      "sdkVersion": "2.1.0",
       "liblabVersion": "2",
       "additionalConstructorParameters": []
     },

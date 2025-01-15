@@ -125,6 +125,61 @@ paths:
       responses:
         "200":
           description: Envelope deleted successfully
+          "/envelope/{envelope_id}/signed_documents":
+            get:
+              description: Download signed documents for an envelope
+              operationId: download_envelope_signed_documents
+              tags:
+                - signplus
+              security:
+                - BearerAuth:
+                    - SIGN_ALL_READ
+              parameters:
+                - in: path
+                  name: envelope_id
+                  required: true
+                  schema:
+                    type: string
+                  description: ID of the envelope
+                - in: query
+                  name: certificate_of_completion
+                  required: false
+                  schema:
+                    type: boolean
+                    default: true
+                  description: Whether to include the certificate of completion in the downloaded file
+              responses:
+                "200":
+                  description: Combined signed documents downloaded successfully
+                  content:
+                    application/pdf:
+                      schema:
+                        type: string
+                        format: binary
+          "/envelope/{envelope_id}/certificate":
+            get:
+              description: Download certificate of completion for an envelope
+              operationId: download_envelope_certificate
+              tags:
+                - signplus
+              security:
+                - BearerAuth:
+                    - SIGN_ALL_READ
+              parameters:
+                - in: path
+                  name: envelope_id
+                  required: true
+                  schema:
+                    type: string
+                  description: ID of the envelope
+              responses:
+                "200":
+                  description: Certificate of completion downloaded successfully
+                  content:
+                    application/pdf:
+                      schema:
+                        type: string
+                        format: binary
   "/envelope/{envelope_id}/document/{document_id}":
     get:
       description: Get envelope document

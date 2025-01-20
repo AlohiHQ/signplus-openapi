@@ -1791,6 +1791,7 @@ components:
         - ENVELOPE_DECLINED
         - ENVELOPE_VOIDED
         - ENVELOPE_COMPLETED
+        - ENVELOPE_AUDIT_TRAIL
     CreateWebhookRequest:
       type: object
       properties:

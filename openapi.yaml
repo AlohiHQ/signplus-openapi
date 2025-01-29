@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Sign.plus Developer API v2
   description: Integrate legally-binding electronic signature to your workflow
-  version: 2.1.0
+  version: 2.2.0
   contact:
     name: Sign.Plus
     url: https://sign.plus
@@ -1791,6 +1791,7 @@ components:
         - ENVELOPE_DECLINED
         - ENVELOPE_VOIDED
         - ENVELOPE_COMPLETED
+        - ENVELOPE_AUDIT_TRAIL
     CreateWebhookRequest:
       type: object
       properties:

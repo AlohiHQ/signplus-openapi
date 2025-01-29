@@ -19,7 +19,7 @@ jobs:
       - name: Get new version
         id: new_version
         run: |
-          version=$(sed -n "s/^  version: \"\(.*\)\"$/\1/p" openapi.yaml)
+          version=$(sed -n "s/^  version: \(.*\)$/\1/p" openapi.yaml)
           echo "::set-output name=version::$version"
           echo "new version: $version"
 
@@ -27,7 +27,7 @@ jobs:
         id: prev_version
         run: |
           git checkout main
-          version=$(sed -n "s/^  version: \"\(.*\)\"$/\1/p" openapi.yaml)
+          version=$(sed -n "s/^  version: \(.*\)$/\1/p" openapi.yaml)
           echo "::set-output name=version::$version"
           echo "previous version: $version"
 

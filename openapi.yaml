@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Sign.plus Developer API v2
   description: Integrate legally-binding electronic signature to your workflow
-  version: 2.2.0
+  version: 2.3.1
   contact:
     name: Sign.Plus
     url: https://sign.plus
@@ -125,61 +125,61 @@ paths:
       responses:
         "200":
           description: Envelope deleted successfully
-          "/envelope/{envelope_id}/signed_documents":
-            get:
-              description: Download signed documents for an envelope
-              operationId: download_envelope_signed_documents
-              tags:
-                - signplus
-              security:
-                - BearerAuth:
-                    - SIGN_ALL_READ
-              parameters:
-                - in: path
-                  name: envelope_id
-                  required: true
-                  schema:
-                    type: string
-                  description: ID of the envelope
-                - in: query
-                  name: certificate_of_completion
-                  required: false
-                  schema:
-                    type: boolean
-                    default: true
-                  description: Whether to include the certificate of completion in the downloaded file
-              responses:
-                "200":
-                  description: Combined signed documents downloaded successfully
-                  content:
-                    application/pdf:
-                      schema:
-                        type: string
-                        format: binary
-          "/envelope/{envelope_id}/certificate":
-            get:
-              description: Download certificate of completion for an envelope
-              operationId: download_envelope_certificate
-              tags:
-                - signplus
-              security:
-                - BearerAuth:
-                    - SIGN_ALL_READ
-              parameters:
-                - in: path
-                  name: envelope_id
-                  required: true
-                  schema:
-                    type: string
-                  description: ID of the envelope
-              responses:
-                "200":
-                  description: Certificate of completion downloaded successfully
-                  content:
-                    application/pdf:
-                      schema:
-                        type: string
-                        format: binary
+  "/envelope/{envelope_id}/signed_documents":
+    get:
+      description: Download signed documents for an envelope
+      operationId: download_envelope_signed_documents
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+        - in: query
+          name: certificate_of_completion
+          required: false
+          schema:
+            type: boolean
+            default: true
+          description: Whether to include the certificate of completion in the downloaded file
+      responses:
+        "200":
+          description: Combined signed documents downloaded successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  "/envelope/{envelope_id}/certificate":
+    get:
+      description: Download certificate of completion for an envelope
+      operationId: download_envelope_certificate
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+      responses:
+        "200":
+          description: Certificate of completion downloaded successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
   "/envelope/{envelope_id}/document/{document_id}":
     get:
       description: Get envelope document
@@ -1090,9 +1090,8 @@ paths:
 components:
   securitySchemes:
     BearerAuth:
-      type: apiKey
-      in: header
-      name: Authorization
+      type: http
+      scheme: bearer
   schemas:
     Envelope:
       type: object
@@ -1249,14 +1248,24 @@ components:
           $ref: "#/components/schemas/RecipientVerificationType"
         value:
           type: string
+          description: |-
+            Required for `PASSCODE` and `SMS` verification.
+
+            - `PASSCODE`: code required by the recipient to sign the document.
+            - `SMS`: recipient's phone number.
+            - `ID_VERIFICATION`: leave empty.
     RecipientVerificationType:
       type: string
-      description: >-
-        Type of signature verification (SMS sends a code via SMS, PASSCODE
-        requires a code to be entered)
+      description: |-
+        Type of verification the recipient must complete before accessing the envelope.
+
+        - `PASSCODE`: requires a code to be entered.  
+        - `SMS`: sends a code via SMS.  
+        - `ID_VERIFICATION`: prompts the recipient to complete an automated ID and selfie check.
       enum:
         - SMS
         - PASSCODE
+        - ID_VERIFICATION
     RecipientRole:
       type: string
       description: >-
@@ -1465,6 +1474,9 @@ components:
       properties:
         name:
           type: string
+          minLength: 2
+          maxLength: 256
+          pattern: "^[a-zA-Z0-9][a-zA-Z0-9 ]*[a-zA-Z0-9]$"
           description: Name of the envelope
         legality_level:
           $ref: "#/components/schemas/EnvelopeLegalityLevel"
@@ -1486,6 +1498,9 @@ components:
       properties:
         name:
           type: string
+          minLength: 2
+          maxLength: 256
+          pattern: "^[a-zA-Z0-9][a-zA-Z0-9 ]*[a-zA-Z0-9]$"
           description: Name of the envelope
         comment:
           type: string
@@ -1616,7 +1631,7 @@ components:
           description: >-
             X coordinate of the annotation (in % of the page width from 0 to
             100) from the top left corner
-        y:
+        "y":
           type: number
           format: float
           description: >-
@@ -1648,7 +1663,7 @@ components:
         - document_id
         - page
         - x
-        - y
+        - "y"
         - width
         - height
         - type
@@ -1764,6 +1779,7 @@ components:
         - SIGNER
         - RECEIVES_COPY
         - IN_PERSON_SIGNER
+        - SENDER
     TemplateOrderField:
       type: string
       description: Field to order templates by
@@ -1808,6 +1824,9 @@ components:
       properties:
         name:
           type: string
+          minLength: 2
+          maxLength: 256
+          pattern: "^[a-zA-Z0-9][a-zA-Z0-9 ]*[a-zA-Z0-9]$"
       required:
         - name
     AddTemplateDocumentRequest:

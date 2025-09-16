@@ -343,7 +343,7 @@ paths:
                 $ref: "#/components/schemas/EnvelopeAttachments"
   "/envelope/{envelope_id}/attachments/placeholders":
     put:
-      description: Set envelope attachment placeholders
+      description: Placeholders to be set, completely replacing the existing ones.
       operationId: set_envelope_attachments_placeholders
       tags:
         - signplus
@@ -1141,7 +1141,7 @@ paths:
                 $ref: "#/components/schemas/EnvelopeAttachments"
   "/template/{template_id}/attachments/placeholders":
     put:
-      description: Set template attachment placeholders
+      description: Placeholders to be set, completely replacing the existing ones.
       operationId: set_template_attachments_placeholders
       tags:
         - signplus

@@ -1,6 +1,6 @@
 {
   "sdkName": "signplus",
-  "apiVersion": "2.4.0",
+  "apiVersion": "2.5.0",
   "apiName": "signplus-api",
   "specFilePath": "openapi.yaml",
   "languages": ["csharp", "go", "python", "typescript", "java", "php"],

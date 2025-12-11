@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Sign.plus Developer API v2
   description: Integrate legally-binding electronic signature to your workflow
-  version: 2.5.0
+  version: 2.7.0
   contact:
     name: Sign.Plus
     url: https://sign.plus
@@ -151,6 +151,36 @@ paths:
       responses:
         "200":
           description: Combined signed documents downloaded successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  "/envelope/{envelope_id}/signed_documents/{document_id}":
+    get:
+      description: Download a single signed document for an envelope
+      operationId: download_envelope_signed_document
+      tags:
+        - signplus
+      security:
+        - BearerAuth:
+            - SIGN_ALL_READ
+      parameters:
+        - in: path
+          name: envelope_id
+          required: true
+          schema:
+            type: string
+          description: ID of the envelope
+        - in: path
+          name: document_id
+          required: true
+          schema:
+            type: string
+          description: ID of the document
+      responses:
+        "200":
+          description: Signed document downloaded successfully
           content:
             application/pdf:
               schema:
@@ -1298,7 +1328,7 @@ components:
       properties:
         visible_to_recipients:
           type: boolean
-          description: Whether the attachment is visible to the recipients
+          description: Whether the attachment is visible to the recipients or only to the sender
     AttachmentPlaceholdersPerRecipient:
       type: object
       properties:

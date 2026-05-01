@@ -83,11 +83,12 @@ jobs:
           fi
           spec_file_path="${POSTMAN_PUBLIC_SPEC_FILE_PATH:-openapi.yaml}"
           spec_file_path_encoded="$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$spec_file_path")"
-          curl -fsS -X PUT \
+          jq -n --rawfile spec "${OPENAPI_PATH}" '{content:$spec}' > postman-public-spec-payload.json
+          curl -fsS -X PATCH \
             "https://api.getpostman.com/specs/${POSTMAN_PUBLIC_SPEC_ID}/files/${spec_file_path_encoded}" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" \
-            -H "Content-Type: application/yaml" \
-            --data-binary @"${OPENAPI_PATH}"
+            -H "Content-Type: application/json" \
+            --data @postman-public-spec-payload.json
           echo "Synced public Postman spec from ${OPENAPI_PATH}"
 
       - name: Publish collection to Postman

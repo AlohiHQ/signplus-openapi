@@ -20,17 +20,17 @@ jobs:
     env:
       POSTMAN_CI: true
       POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-      POSTMAN_CODEGEN_COLLECTION_ID: ${{ vars.POSTMAN_CODEGEN_COLLECTION_ID }}
+      POSTMAN_CODEGEN_COLLECTION_UID: ${{ vars.POSTMAN_CODEGEN_COLLECTION_UID }}
       POSTMAN_CODEGEN_SPEC_ID: ${{ vars.POSTMAN_CODEGEN_SPEC_ID }}
       POSTMAN_CODEGEN_SPEC_FILE_PATH: ${{ vars.POSTMAN_CODEGEN_SPEC_FILE_PATH }}
     steps:
       - name: Check if secrets are set
         run: |
-          if [[ -n "${{ secrets.POSTMAN_API_KEY }}" && -n "${{ vars.POSTMAN_CODEGEN_COLLECTION_ID }}" && -n "${{ vars.POSTMAN_CODEGEN_SPEC_ID }}" ]]; then
+          if [[ -n "${{ secrets.POSTMAN_API_KEY }}" && -n "${{ vars.POSTMAN_CODEGEN_COLLECTION_UID }}" && -n "${{ vars.POSTMAN_CODEGEN_SPEC_ID }}" ]]; then
             echo "Secrets are set, proceeding with the workflow"
           else
-            echo "Error: POSTMAN_API_KEY secret plus POSTMAN_CODEGEN_COLLECTION_ID and POSTMAN_CODEGEN_SPEC_ID vars are required"
-            echo "::error::POSTMAN_API_KEY secret plus POSTMAN_CODEGEN_COLLECTION_ID and POSTMAN_CODEGEN_SPEC_ID vars are required"
+            echo "Error: POSTMAN_API_KEY secret, POSTMAN_CODEGEN_COLLECTION_UID and POSTMAN_CODEGEN_SPEC_ID vars are required"
+            echo "::error::POSTMAN_API_KEY secret, POSTMAN_CODEGEN_COLLECTION_UID and POSTMAN_CODEGEN_SPEC_ID vars are required"
             exit 1
           fi
       - name: Checkout
@@ -53,5 +53,22 @@ jobs:
           -H "Content-Type: application/json" \
           --data @postman-codegen-spec-payload.json
           echo "Postman codegen spec synced from openapi.yaml"
+      - name: Convert OpenAPI to codegen collection JSON
+        run: |
+          set -euo pipefail
+          npx --yes openapi-to-postmanv2 \
+            -s openapi.yaml \
+            -o codegen-collection.json \
+            -p
+      - name: Sync codegen collection from OpenAPI
+        run: |
+          set -euo pipefail
+          jq -c '{collection: .}' codegen-collection.json > postman-codegen-collection-payload.json
+          curl -fsS -X PUT \
+            "https://api.getpostman.com/collections/${POSTMAN_CODEGEN_COLLECTION_UID}" \
+            -H "X-Api-Key: ${POSTMAN_API_KEY}" \
+            -H "Content-Type: application/json" \
+            --data @postman-codegen-collection-payload.json
+          echo "Postman codegen collection synced from openapi.yaml"
       - name: Start Build
-        run: postman sdk generate "$POSTMAN_CODEGEN_COLLECTION_ID" --config .postman/config.json --all --yes --pr
+        run: postman sdk generate "$POSTMAN_CODEGEN_COLLECTION_UID" --config .postman/config.json --all --yes --pr

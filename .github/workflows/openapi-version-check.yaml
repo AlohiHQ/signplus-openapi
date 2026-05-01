@@ -3,7 +3,9 @@ run-name: Verify version is bumped when openapi.yaml is updated
 
 on: # yamllint disable-line rule:truthy
   pull_request:
-    branches: ["main"]
+    branches:
+    - main
+    - liblab-postmain-migration
     paths: ["openapi.yaml"]
 
 jobs:

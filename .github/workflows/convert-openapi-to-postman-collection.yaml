@@ -41,6 +41,8 @@ jobs:
       POSTMAN_PUBLIC_COLLECTION_UID: ${{ vars.POSTMAN_PUBLIC_COLLECTION_UID }}
       POSTMAN_PUBLIC_SPEC_ID: ${{ vars.POSTMAN_PUBLIC_SPEC_ID }}
       POSTMAN_PUBLIC_SPEC_FILE_PATH: ${{ vars.POSTMAN_PUBLIC_SPEC_FILE_PATH }}
+      OPENAPI_PATH: ${{ github.event.inputs.openapi_path || 'openapi.yaml' }}
+      OUTPUT_PATH: ${{ github.event.inputs.output_path || 'postman-collection.json' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,25 +55,25 @@ jobs:
       - name: Convert OpenAPI to Postman collection
         run: |
           set -euo pipefail
-          output_dir="$(dirname "${{ inputs.output_path }}")"
+          output_dir="$(dirname "${OUTPUT_PATH}")"
           mkdir -p "$output_dir"
           npx --yes openapi-to-postmanv2 \
-            -s "${{ inputs.openapi_path }}" \
-            -o "${{ inputs.output_path }}" \
+            -s "${OPENAPI_PATH}" \
+            -o "${OUTPUT_PATH}" \
             -p
 
       - name: Post-process collection structure and names
         run: |
           set -euo pipefail
-          python3 scripts/postprocess_postman_collection.py "${{ inputs.output_path }}"
+          python3 scripts/postprocess_postman_collection.py "${OUTPUT_PATH}"
 
       - name: Validate generated collection JSON
         run: |
           set -euo pipefail
-          jq empty "${{ inputs.output_path }}"
+          jq empty "${OUTPUT_PATH}"
 
       - name: Sync OpenAPI to public Postman spec
-        if: ${{ inputs.sync_public_schema }}
+        if: ${{ github.event_name == 'push' || github.event.inputs.sync_public_schema == 'true' }}
         run: |
           set -euo pipefail
           if [[ -z "${POSTMAN_API_KEY}" || -z "${POSTMAN_PUBLIC_SPEC_ID}" ]]; then
@@ -85,11 +87,11 @@ jobs:
             "https://api.getpostman.com/specs/${POSTMAN_PUBLIC_SPEC_ID}/files/${spec_file_path_encoded}" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" \
             -H "Content-Type: application/yaml" \
-            --data-binary @"${{ inputs.openapi_path }}"
-          echo "Synced public Postman spec from ${{ inputs.openapi_path }}"
+            --data-binary @"${OPENAPI_PATH}"
+          echo "Synced public Postman spec from ${OPENAPI_PATH}"
 
       - name: Publish collection to Postman
-        if: ${{ inputs.publish_to_postman }}
+        if: ${{ github.event_name == 'push' || github.event.inputs.publish_to_postman == 'true' }}
         run: |
           set -euo pipefail
           if [[ -z "${POSTMAN_API_KEY}" || -z "${POSTMAN_PUBLIC_COLLECTION_UID}" ]]; then
@@ -97,7 +99,7 @@ jobs:
             echo "::error::POSTMAN_API_KEY secret and POSTMAN_PUBLIC_COLLECTION_UID var are required to publish"
             exit 1
           fi
-          jq -c '{collection: .}' "${{ inputs.output_path }}" > postman-collection-payload.json
+          jq -c '{collection: .}' "${OUTPUT_PATH}" > postman-collection-payload.json
           curl -fsS -X PUT \
             "https://api.getpostman.com/collections/${POSTMAN_PUBLIC_COLLECTION_UID}" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" \
@@ -109,4 +111,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: postman-collection
-          path: ${{ inputs.output_path }}
+          path: ${{ env.OUTPUT_PATH }}

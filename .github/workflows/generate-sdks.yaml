@@ -12,6 +12,7 @@ on:
       - "openapi.*"
       - "hooks/**"
       - "customPlanModifiers/**"
+      - ".github/workflows/generate-sdks.yaml"
 jobs:
   build-and-pr:
     name: Generate SDKs and create PRs

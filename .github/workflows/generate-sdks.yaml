@@ -1,0 +1,44 @@
+name: Generate SDKs using Postman
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".postman/config.json"
+      - "openapi.*"
+      - "hooks/**"
+      - "customPlanModifiers/**"
+jobs:
+  build-and-pr:
+    name: Generate SDKs and create PRs
+    runs-on: ubuntu-latest
+    if: github.run_number != 1
+    env:
+      POSTMAN_CI: true
+      POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+      POSTMAN_GITHUB_TOKEN: ${{ secrets.POSTMAN_GITHUB_TOKEN }}
+    steps:
+      - name: Check if secrets are set
+        run: |
+          if [[ -n "${{ secrets.POSTMAN_API_KEY }}" && -n "${{ secrets.POSTMAN_GITHUB_TOKEN }}" ]]; then
+            echo "Secrets are set, proceeding with the workflow"
+          else
+            echo "Error: Secrets POSTMAN_API_KEY and POSTMAN_GITHUB_TOKEN are required, see https://developers.liblab.com/tutorials/integrate-with-github-actions/#create-tokens"
+            echo "::error::Secrets POSTMAN_API_KEY and POSTMAN_GITHUB_TOKEN are required, see https://developers.liblab.com/tutorials/integrate-with-github-actions/#create-tokens"
+            exit 1
+          fi
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install postman
+        run: npm install -g postman-cli
+      - name: Start Build
+        run: postman sdk generate ./openapi.yaml -y
+      - name: Create PRs to GitHub repos
+        run: postman pr

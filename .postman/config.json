@@ -1,0 +1,101 @@
+{
+  "sdkName": "signplus",
+  "sdkVersion": "3.0.0",
+  "apiVersion": "2.5.0",
+  "apiName": "signplus-api",
+  "languages": [
+    "csharp",
+    "go",
+    "python",
+    "typescript",
+    "java",
+    "php"
+  ],
+  "auth": [
+    "bearer"
+  ],
+  "customizations": {
+    "includeOptionalSnippetParameters": true,
+    "authentication": {
+      "access": {
+        "prefix": "Bearer"
+      }
+    },
+    "devContainer": false,
+    "generateEnv": true,
+    "inferServiceNames": false,
+    "injectedModels": [],
+    "license": {
+      "type": "MIT"
+    },
+    "responseHeaders": false,
+    "retry": {
+      "enabled": true,
+      "maxAttempts": 3,
+      "retryDelay": 150
+    }
+  },
+  "languageOptions": {
+    "python": {
+      "githubRepoName": "signplus-python",
+      "pypiPackageName": "signplus-python",
+      "homepage": "https://github.com/AlohiHQ/signplus-python",
+      "authors": [{
+        "name": "Alohi",
+        "email": "support@alohi.com"
+      }],
+      "classifiers": [
+        "Development Status :: 5 - Production/Stable",
+        "License :: OSI Approved :: MIT License",
+        "Topic :: Software Development"
+      ]
+    },
+    "java": {
+      "groupId": "com.alohi",
+      "artifactId": "signplus",
+      "githubRepoName": "signplus-sharp",
+      "developers": [
+        {
+          "name": "Alohi SA",
+          "email": "support@alohi.com",
+          "organization": "Alohi SA",
+          "organizationUrl": "https://www.alohi.com"
+        }
+      ]
+    },
+    "typescript": {
+      "bundle": false,
+      "exportClassDefault": false,
+      "httpClient": "axios",
+      "npmName": "signplus-typescript",
+      "npmOrg": "alohi",
+      "githubRepoName": "signplus-typescript"
+    },
+    "go": {
+      "goModuleName": "github.com/alohihq/signplus-go",
+      "homepage": "https://github.com/AlohiHQ/signplus-go",
+      "githubRepoName": "signplus-sharp"
+    },
+    "php": {
+      "packageName": "alohi/signplus",
+      "homepage": "https://github.com/AlohiHQ/signplus-php",
+      "githubRepoName": "signplus-sharp",
+      "authors": [{
+        "name": "Alohi",
+        "email": "support@alohi.com"
+      }]
+    },
+    "csharp": {
+      "packageId": "Alohi.Signplus",
+      "homepage": "https://github.com/AlohiHQ/signplus-php",
+      "githubRepoName": "signplus-sharp",
+      "authors": [{
+        "name": "Alohi",
+        "email": "support@alohi.com"
+      }]
+    }
+  },
+  "publishing": {
+    "githubOrg": "alohihq"
+  }
+}

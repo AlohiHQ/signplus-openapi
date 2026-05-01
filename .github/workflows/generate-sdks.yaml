@@ -17,7 +17,7 @@ jobs:
   build-and-pr:
     name: Generate SDKs and create PRs
     runs-on: ubuntu-latest
-    if: github.run_number != 1
+    if: ${{ github.event_name == 'workflow_dispatch' || github.run_number != 1 }}
     env:
       POSTMAN_CI: true
       POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}

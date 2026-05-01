@@ -19,15 +19,17 @@ jobs:
     env:
       POSTMAN_CI: true
       POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-      POSTMAN_GITHUB_TOKEN: ${{ secrets.POSTMAN_GITHUB_TOKEN }}
+      POSTMAN_CODEGEN_COLLECTION_ID: ${{ vars.POSTMAN_CODEGEN_COLLECTION_ID }}
+      POSTMAN_CODEGEN_SPEC_ID: ${{ vars.POSTMAN_CODEGEN_SPEC_ID }}
+      POSTMAN_CODEGEN_SPEC_FILE_PATH: ${{ vars.POSTMAN_CODEGEN_SPEC_FILE_PATH }}
     steps:
       - name: Check if secrets are set
         run: |
-          if [[ -n "${{ secrets.POSTMAN_API_KEY }}" && -n "${{ secrets.POSTMAN_GITHUB_TOKEN }}" ]]; then
+          if [[ -n "${{ secrets.POSTMAN_API_KEY }}" && -n "${{ vars.POSTMAN_CODEGEN_COLLECTION_ID }}" && -n "${{ vars.POSTMAN_CODEGEN_SPEC_ID }}" ]]; then
             echo "Secrets are set, proceeding with the workflow"
           else
-            echo "Error: Secrets POSTMAN_API_KEY and POSTMAN_GITHUB_TOKEN are required, see https://developers.liblab.com/tutorials/integrate-with-github-actions/#create-tokens"
-            echo "::error::Secrets POSTMAN_API_KEY and POSTMAN_GITHUB_TOKEN are required, see https://developers.liblab.com/tutorials/integrate-with-github-actions/#create-tokens"
+            echo "Error: POSTMAN_API_KEY secret plus POSTMAN_CODEGEN_COLLECTION_ID and POSTMAN_CODEGEN_SPEC_ID vars are required"
+            echo "::error::POSTMAN_API_KEY secret plus POSTMAN_CODEGEN_COLLECTION_ID and POSTMAN_CODEGEN_SPEC_ID vars are required"
             exit 1
           fi
       - name: Checkout
@@ -38,7 +40,16 @@ jobs:
           node-version: "20"
       - name: Install postman
         run: npm install -g postman-cli
+      - name: Sync OpenAPI to Postman codegen spec
+        run: |
+          set -euo pipefail
+          spec_file_path="${POSTMAN_CODEGEN_SPEC_FILE_PATH:-openapi.yaml}"
+          spec_file_path_encoded="$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$spec_file_path")"
+          curl -fsS -X PUT \
+          "https://api.getpostman.com/specs/${POSTMAN_CODEGEN_SPEC_ID}/files/${spec_file_path_encoded}" \
+          -H "X-Api-Key: ${POSTMAN_API_KEY}" \
+          -H "Content-Type: application/yaml" \
+          --data-binary @openapi.yaml
+          echo "Postman codegen spec synced from openapi.yaml"
       - name: Start Build
-        run: postman sdk generate ./openapi.yaml -y
-      - name: Create PRs to GitHub repos
-        run: postman pr
+        run: postman sdk generate "$POSTMAN_CODEGEN_COLLECTION_ID" --config .postman/config.json --all --yes --pr

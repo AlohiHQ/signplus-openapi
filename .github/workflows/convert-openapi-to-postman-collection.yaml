@@ -23,6 +23,14 @@ on:
         required: false
         default: true
         type: boolean
+  push:
+    branches:
+      - main
+      - liblab-postmain-migration
+    paths:
+      - "openapi.*"
+      - "scripts/**"
+      - ".github/workflows/convert-openapi-to-postman-collection.yaml"
 
 jobs:
   convert:

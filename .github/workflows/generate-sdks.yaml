@@ -42,15 +42,5 @@ jobs:
           node-version: "20"
       - name: Install postman
         run: npm install -g postman-cli
-      - name: Sync codegen collection from OpenAPI
-        run: |
-          set -euo pipefail
-          jq -c '{collection: .}' codegen-collection.json > postman-codegen-collection-payload.json
-          curl -fsS -X PUT \
-            "https://api.getpostman.com/collections/${POSTMAN_CODEGEN_COLLECTION_UID}" \
-            -H "X-Api-Key: ${POSTMAN_API_KEY}" \
-            -H "Content-Type: application/json" \
-            --data @postman-codegen-collection-payload.json
-          echo "Postman codegen collection synced from openapi.yaml"
       - name: Start Build
         run: postman sdk generate 5d9fca3a-33b5-4ef0-a434-4335e969cc78 --config .postman/config.json --overwrite --no-emit --all

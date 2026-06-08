@@ -53,7 +53,7 @@
     "java": {
       "groupId": "com.alohi",
       "artifactId": "signplus",
-      "githubRepoName": "signplus-sharp",
+      "githubRepoName": "signplus-java",
       "developers": [
         {
           "name": "Alohi SA",
@@ -79,7 +79,7 @@
     "php": {
       "packageName": "alohi/signplus",
       "homepage": "https://github.com/AlohiHQ/signplus-php",
-      "githubRepoName": "signplus-sharp",
+      "githubRepoName": "signplus-php",
       "authors": [{
         "name": "Alohi",
         "email": "support@alohi.com"

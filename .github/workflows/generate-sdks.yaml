@@ -42,25 +42,6 @@ jobs:
           node-version: "20"
       - name: Install postman
         run: npm install -g postman-cli
-      - name: Sync OpenAPI to Postman codegen spec
-        run: |
-          set -euo pipefail
-          spec_file_path="${POSTMAN_CODEGEN_SPEC_FILE_PATH:-openapi.yaml}"
-          spec_file_path_encoded="$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$spec_file_path")"
-          jq -n --rawfile spec openapi.yaml '{content:$spec}' > postman-codegen-spec-payload.json
-          curl -fsS -X PATCH \
-          "https://api.getpostman.com/specs/${POSTMAN_CODEGEN_SPEC_ID}/files/${spec_file_path_encoded}" \
-          -H "X-Api-Key: ${POSTMAN_API_KEY}" \
-          -H "Content-Type: application/json" \
-          --data @postman-codegen-spec-payload.json
-          echo "Postman codegen spec synced from openapi.yaml"
-      - name: Convert OpenAPI to codegen collection JSON
-        run: |
-          set -euo pipefail
-          npx --yes openapi-to-postmanv2 \
-            -s openapi.yaml \
-            -o codegen-collection.json \
-            -p
       - name: Sync codegen collection from OpenAPI
         run: |
           set -euo pipefail
@@ -72,4 +53,4 @@ jobs:
             --data @postman-codegen-collection-payload.json
           echo "Postman codegen collection synced from openapi.yaml"
       - name: Start Build
-        run: postman sdk generate "$POSTMAN_CODEGEN_COLLECTION_UID" --config .postman/config.json --all --yes --pr
+        run: postman sdk generate 5d9fca3a-33b5-4ef0-a434-4335e969cc78 --config .postman/config.json --overwrite --no-emit --all
